@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 5e66541faf5095c4f805ba59ff3ebddd
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - cc.yal.7w7.block
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: d73698101b5c1f74587c726485274911, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

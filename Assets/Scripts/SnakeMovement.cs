@@ -1,11 +1,9 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-//using System.Collections;
-//using System.Collections.Generic;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
-
 public class SnakeMovement : MonoBehaviour
 {
     private Vector3 _position;
@@ -21,10 +19,11 @@ public class SnakeMovement : MonoBehaviour
     public float maxTimeTick;
 
     private State _state;
-    private enum State
+    public enum State
     {
         Alive,
-        Dead
+        Dead,
+        Frozen
     }
     private void Start()
     {
@@ -35,6 +34,7 @@ public class SnakeMovement : MonoBehaviour
 
         _tf = transform;
         _position = _tf.position;
+
 
         _state = State.Alive;
     }
@@ -75,8 +75,8 @@ public class SnakeMovement : MonoBehaviour
             else
             {
                 //Got hit in snake body or wall
-                UnityEngine.Debug.Log("Snake Die");
                 _state = State.Dead;
+                StartCoroutine(PlayerDead());
                 return;
             }
             
@@ -127,6 +127,16 @@ public class SnakeMovement : MonoBehaviour
             }
         }
     }
+
+    public void changeState(State changes){
+        if(_state == State.Dead) return;
+        _state = changes;
+    }
+
+    private IEnumerator PlayerDead(){
+        yield return new WaitForSeconds(2);
+        SceneSystem.instance.RestartScene();
+    }
     private void Update()
     {
         switch (_state)
@@ -135,6 +145,9 @@ public class SnakeMovement : MonoBehaviour
                 Move();
                 TurnChecking();
                 break;
+            case State.Frozen:
+                break;
+
             case State.Dead:
                 break;
         }

@@ -34,6 +34,9 @@ public class LevelGrid : MonoBehaviour
     public int maxNumFood;
     private bool _initialStart;
 
+    //Score
+    private ScoreSystem _score;
+
     public void IncreaseGridSize()
     {
         _gridSize++;
@@ -59,25 +62,13 @@ public class LevelGrid : MonoBehaviour
 
     public void EatFood(Vector3 theEatingPosition)
     {
+        
         Destroy(Grid[(int) theEatingPosition.x - xLeft, (int) theEatingPosition.y - yBottom]);
         Grid[(int) theEatingPosition.x - xLeft, (int) theEatingPosition.y - yBottom] = null;
         SpawnFood(theEatingPosition);
+        _score.AddScore(1);
     }
     
-    /*public bool CheckEating(Vector3 snakeHeadPosition)
-    {
-        foreach (var t in _foodStorage)
-        {
-            if (t.transform.position != snakeHeadPosition) continue;
-            Destroy(t);
-            _foodStorage.Remove(t);
-            Grid[(int) snakeHeadPosition.x - xLeft, (int) snakeHeadPosition.y - yBottom] = null;
-            
-            SpawnFood();
-            return true;
-        }
-        return false;
-    }*/
     
     public string CheckObstacle(Vector3 thePosition)
     {
@@ -143,6 +134,8 @@ public class LevelGrid : MonoBehaviour
         
         Grid = new GameObject[xRight-xLeft+1,yTop-yBottom+1];
         _gridSize = (xRight - xLeft + 1) * (yTop - yBottom + 1);
+
+        _score = FindObjectOfType<ScoreSystem>();
     }
     
     void Update()
