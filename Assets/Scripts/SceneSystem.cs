@@ -12,7 +12,6 @@ public class SceneSystem : MonoBehaviour
         else
         {
             instance = this;
-            DontDestroyOnLoad(instance);
         }
     }
 

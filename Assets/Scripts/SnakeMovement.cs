@@ -6,9 +6,12 @@ using System.Collections.Generic;
 using UnityEngine;
 public class SnakeMovement : MonoBehaviour
 {
+    [Header("UI")]
+    [SerializeField] private GameObject loseGameMenu;
+
     private Vector3 _position;
     private Transform _tf;
-    
+    private SnakeNode _snakeNode;
     private bool _isSelected= true;
 
     private int _horizontal;
@@ -35,8 +38,17 @@ public class SnakeMovement : MonoBehaviour
         _tf = transform;
         _position = _tf.position;
 
-
+        loseGameMenu.SetActive(false);
         _state = State.Alive;
+        
+        _snakeNode = gameObject.GetComponent<SnakeNode>();
+        InitializeSnakeNode();
+
+    }
+
+    void InitializeSnakeNode(){
+        _snakeNode.AddFront( new Vector3(_tf.position.x-1,_tf.position.y),  _tf.rotation, 0);
+        
     }
 
     private void Warp()
@@ -64,12 +76,12 @@ public class SnakeMovement : MonoBehaviour
             if (incomingObstacle == "Null")
             {
                 //Nothing
-                SnakeNode.I.AddNode( _tf.position,  _tf.rotation, rotation.z - _lastRotationZ);
-                SnakeNode.I.RemoveLastNode();
+                _snakeNode.AddFront( _tf.position,  _tf.rotation, rotation.z - _lastRotationZ);
+                _snakeNode.RemoveBack();
             }
             else if (incomingObstacle == "Food")
             {
-                SnakeNode.I.AddNode( _tf.position,  _tf.rotation, rotation.z - _lastRotationZ);
+                _snakeNode.AddFront( _tf.position,  _tf.rotation, rotation.z - _lastRotationZ);
                 LevelGrid.I.EatFood(_position);
             }
             else
@@ -135,7 +147,7 @@ public class SnakeMovement : MonoBehaviour
 
     private IEnumerator PlayerDead(){
         yield return new WaitForSeconds(2);
-        SceneSystem.instance.RestartScene();
+        loseGameMenu.SetActive(true);
     }
     private void Update()
     {

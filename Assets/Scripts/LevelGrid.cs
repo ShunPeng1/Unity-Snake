@@ -35,7 +35,7 @@ public class LevelGrid : MonoBehaviour
     private bool _initialStart;
 
     //Score
-    private ScoreSystem _score;
+    private ScoreUISystem _score;
 
     public void IncreaseGridSize()
     {
@@ -60,13 +60,14 @@ public class LevelGrid : MonoBehaviour
         }
     }
 
-    public void EatFood(Vector3 theEatingPosition)
+    public bool EatFood(Vector3 theEatingPosition)
     {
         
         Destroy(Grid[(int) theEatingPosition.x - xLeft, (int) theEatingPosition.y - yBottom]);
         Grid[(int) theEatingPosition.x - xLeft, (int) theEatingPosition.y - yBottom] = null;
         SpawnFood(theEatingPosition);
-        _score.AddScore(1);
+        bool isWon = _score.AddScore(1);
+        return isWon;
     }
     
     
@@ -117,7 +118,7 @@ public class LevelGrid : MonoBehaviour
                 }
             }
         }
-
+        
         //Spawn Food Prefabs
         for (var i = 0; i < maxNumFood; i++)
         {
@@ -135,7 +136,7 @@ public class LevelGrid : MonoBehaviour
         Grid = new GameObject[xRight-xLeft+1,yTop-yBottom+1];
         _gridSize = (xRight - xLeft + 1) * (yTop - yBottom + 1);
 
-        _score = FindObjectOfType<ScoreSystem>();
+        _score = FindObjectOfType<ScoreUISystem>();
     }
     
     void Update()

@@ -5,11 +5,9 @@ using UnityEngine;
 
 public class SnakeNode : MonoBehaviour
 {
-    public static SnakeNode I;
-
-    private static List<GameObject> _nodeStorage;
+    private List<GameObject> _nodeStorage;
     
-    public void AddNode(Vector3 snakeHeadPosition, Quaternion snakeHeadRotation, float turnDegree)
+    public void AddFront(Vector3 snakeHeadPosition, Quaternion snakeHeadRotation, float turnDegree)
     {
         //Choose node between turning and straight
         GameObject nodeGameObject;
@@ -34,7 +32,7 @@ public class SnakeNode : MonoBehaviour
         LevelGrid.I.Grid[(int) snakeHeadPosition.x - LevelGrid.I.xLeft, (int) snakeHeadPosition.y - LevelGrid.I.yBottom] = nodeGameObject;
         LevelGrid.I.DecreaseGridSize();
     }
-    public void RemoveLastNode()
+    public void RemoveBack()
     {
         if (_nodeStorage.Count <= 0) return;
         var lastGameObject = _nodeStorage[_nodeStorage.Count - 1];
@@ -73,7 +71,6 @@ public class SnakeNode : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        I= this;
         _nodeStorage = new List<GameObject>();
     }
 
